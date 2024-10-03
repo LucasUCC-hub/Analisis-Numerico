@@ -389,3 +389,64 @@ int main() {
 
     return 0;
 }
+
+#include <iostream>
+
+class Matrix {
+private:
+    int rows, cols;
+    int* data;
+
+public:
+    // Constructor
+    Matrix(int r, int c) : rows(r), cols(c) {
+        data = new int[rows * cols]; // Crear un array unidimensional
+        for (int i = 0; i < rows * cols; ++i) {
+            data[i] = 0; // Inicializar en cero
+        }
+    }
+
+    // Destructor
+    ~Matrix() {
+        delete[] data; // Liberar memoria
+    }
+
+    // Overloading () operator
+    int& operator()(int x, int y) {
+        return data[x * cols + y]; // Calcular el índice
+    }
+
+    const int& operator()(int x, int y) const {
+        return data[x * cols + y];
+    }
+
+    // Print the matrix
+    void print() const {
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                std::cout << data[i * cols + j] << " "; // Calcular el índice
+            }
+            std::cout << std::endl;
+        }
+    }
+};
+
+int main() {
+    int r = 3, c = 3;
+    Matrix m(r, c); // Crear una matriz de 3x3
+
+    // Asignar valores a la matriz
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            m(i, j) = i * c + j; // Llenar la matriz con algunos valores
+        }
+    }
+
+    // Imprimir la matriz
+    m.print();
+
+    // Acceso a un elemento específico
+    std::cout << "Element at (1, 1): " << m(1, 1) << std::endl;
+
+    return 0;
+}
